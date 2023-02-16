@@ -49,12 +49,52 @@ void player_turn(char *turn, char array[3][3]) {
     draw_board(array);
 }
 
+bool game_over(bool *could_draw, char array[3][3]) {
+    for (int i = 0; i < 3; i++) {
+        if ((array[i][0] == array[i][1] && array[i][0] == array[i][2] ||
+        array[0][i] == array[1][i] && array[0][i] == array[2][i])) {
+            return false;
+        }
+    }
+
+    if ((array[0][0]) == array[1][1] && array[0][0] == array[2][2] ||
+    array[0][2] == array[1][1] && array[0][2] == array[2][0]) {
+        return false;
+    }
+
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (array[i][j] != 'X' && array[i][j] != 'O') {
+                return true;
+            }
+        }
+    }
+
+}
+
 int main() {
     // массив для игровой доски
     char board[3][3] = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
     // массив для игры
     char turn = 'X';
     bool draw = false;
+
+    cout << "\t\t\tT I C -- T A C -- T O E -- G A M E\t\t\t";
+    cout << "\n\t\t\tFOR 2 PLAYERS\t\t\t\t\n";
+
+    while (game_over(&draw, board)) {
+        draw_board(board);
+        player_turn(&turn, board);
+        game_over(&draw, board);
+    }
+
+    if (turn == 'X' && !draw) {
+        cout << "\n\nCongrats! Player 2 has won the game!";
+    } else if (turn == 'O' && !draw) {
+        cout << "\n\nCongrats! Player 2 has won the game!";
+    } else {
+        cout << "\n\nGame over!\n\n";
+    }
 
     draw_board(board);
     return 0;
