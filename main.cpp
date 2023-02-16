@@ -14,6 +14,41 @@ void draw_board(char array[3][3]) {
     cout << "\t      |     |     \n";
 }
 
+void player_turn(char *turn, char array[3][3]) {
+    switch (*turn) {
+        case 'X': cout << "\nPlayer - 1 [X] turn: "; break;
+        default: cout << "\nPlayer - 2 [O] turn: "; break;
+    }
+    int choice_cell, row, col;
+    cin >> choice_cell;
+
+    switch (choice_cell) { // в этом свиче мы выбираем куда ставить крестик или нолик
+        case 1: row = 0; col = 0; break;
+        case 2: row = 0; col = 1; break;
+        case 3: row = 0; col = 2; break;
+        case 4: row = 1; col = 0; break;
+        case 5: row = 1; col = 1; break;
+        case 6: row = 1; col = 2; break;
+        case 7: row = 2; col = 0; break;
+        case 8: row = 2; col = 1; break;
+        case 9: row = 2; col = 2; break;
+        default: cout << "Invalid move\n";
+    }
+
+    // корректность ввода
+    if (*turn == 'X' && array[row][col] != 'X' && array[row][col] != 'O') {
+        array[row][col] = 'X';
+        *turn = 'O';
+    } else if (*turn == 'O' && array[row][col] != 'X' && array[row][col] != 'O') {
+        array[row][col] = 'O';
+        *turn = 'X';
+    } else {
+        cout << "Cell is already filled! Choose another!\n\n";
+        player_turn(turn, array);
+    }
+    draw_board(array);
+}
+
 int main() {
     // массив для игровой доски
     char board[3][3] = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
